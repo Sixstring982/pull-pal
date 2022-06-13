@@ -102,13 +102,10 @@ const defaultOnResolve = async (
   }
 };
 
-// Build the service worker script
-Esbuild.build({
-  entryPoints: [path.join(SRC_DIR, "serviceworker", "main.ts")],
+const commonEsbuildOptions = (projectName: string): Esbuild.BuildOptions => ({
   bundle: true,
   minify: ENVIRONMENT === "production",
   sourcemap: ENVIRONMENT === "production" ? undefined : "inline",
-  outfile: path.join(BUILD_DIR, "service_worker.js"),
   plugins: [
     pnpPlugin({
       onResolve: defaultOnResolve,
@@ -117,14 +114,34 @@ Esbuild.build({
   watch: !argv.includes("--watch")
     ? undefined
     : {
-        onRebuild(error) {
+        onRebuild(error: Esbuild.BuildFailure | null) {
           if (error) {
             console.log(error);
           } else {
-            console.log("Service worker build complete.");
+            console.log(`${projectName} build complete.`);
           }
         },
       },
+});
+
+// Build the popup script
+Esbuild.build({
+  entryPoints: [path.join(SRC_DIR, "popup", "main.ts")],
+  outfile: path.join(BUILD_DIR, "popup.js"),
+  ...commonEsbuildOptions('Popup'),
+})
+  .then(() => {
+    console.log("Popup build complete.");
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+// Build the service worker script
+Esbuild.build({
+  entryPoints: [path.join(SRC_DIR, "serviceworker", "main.ts")],
+  outfile: path.join(BUILD_DIR, "service_worker.js"),
+  ...commonEsbuildOptions('Service worker'),
 })
   .then(() => {
     console.log("Service worker build complete.");

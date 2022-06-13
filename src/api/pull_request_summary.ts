@@ -2,6 +2,7 @@ import { NonEmptyArray } from "../common/util/non_empty";
 
 export interface PullRequest {
   readonly kind: "PullRequest";
+  readonly url: string;
 }
 
 //
