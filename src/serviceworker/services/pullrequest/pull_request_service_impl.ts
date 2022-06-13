@@ -47,7 +47,7 @@ export class PullRequestServiceImpl implements PullRequestService {
 
   private queryPullRequests(
     queryPararms: readonly string[]
-  ): Promise<ReadonlyArray<PullRequest>> {
+  ): Promise<SearchResponse> {
     const q = encodeURIComponent(queryPararms.join(" "));
 
     return this.localStorageService
@@ -60,20 +60,13 @@ export class PullRequestServiceImpl implements PullRequestService {
             Authorization: `token ${accessToken}`,
             Accept: "application/vnd.github.v3+json",
           }),
-        })
-      )
-      .then((response) => response.json() as Promise<SearchResponse>)
-      .then((body) => {
-        return body.items.map((item) => ({
-          kind: "PullRequest",
-          url: item.html_url,
-        }));
-      });
+        }).then((response) => response.json() as Promise<SearchResponse>)
+      );
   }
 }
 
 const toPullRequestGroup = (
-  result: PromiseSettledResult<ReadonlyArray<PullRequest>>
+  result: PromiseSettledResult<SearchResponse>
 ): PullRequestGroupResult => {
   if (result.status === "rejected") {
     return {
@@ -82,10 +75,20 @@ const toPullRequestGroup = (
     };
   }
 
+  if (isSearchResponseBadCredentials(result.value)) {
+    return {
+      kind: "PullRequestGroupFetchError",
+      errors: ["Bad credentials."],
+    };
+  }
+
   return {
     kind: "PullRequestGroup",
     fetchedAtEpochMillis: new Date().getTime(),
-    pullRequests: result.value,
+    pullRequests: result.value.items.map((item) => ({
+      kind: "PullRequest",
+      url: item.html_url,
+    })),
   };
 };
 
@@ -93,7 +96,18 @@ interface SearchItem {
   readonly html_url: string;
 }
 
-interface SearchResponse {
+interface SearchResponseSuccess {
   readonly incomplete_results: boolean;
   readonly items: readonly SearchItem[];
 }
+
+interface SearchResponseBadCredentials {
+  readonly message: "Bad credentials";
+  readonly documentation_url: string;
+}
+const isSearchResponseBadCredentials = (
+  x: SearchResponse
+): x is SearchResponseBadCredentials =>
+  "message" in x && x.message === "Bad credentials";
+
+type SearchResponse = SearchResponseSuccess | SearchResponseBadCredentials;

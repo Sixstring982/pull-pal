@@ -10,10 +10,16 @@ import {
   LocalStorageService,
   LOCAL_STORAGE_SERVICE,
 } from "../localstorage/local_storage_service";
+import {
+  PullRequestService,
+  PULL_REQUEST_SERVICE,
+} from "../pullrequest/pull_request_service";
 
 @injectable()
 export class RuntimeMessageHandler implements OnRuntimeMessage {
   constructor(
+    @inject(PULL_REQUEST_SERVICE)
+    private readonly pullRequestService: PullRequestService,
     @inject(LOCAL_STORAGE_SERVICE)
     private readonly localStorageService: LocalStorageService
   ) {}
@@ -38,11 +44,11 @@ export class RuntimeMessageHandler implements OnRuntimeMessage {
   private handleGetPullRequestSummaryRequest(
     request: GetPullRequestSummaryRequest
   ): Promise<GetPullRequestSummaryResponse> {
-    return this.localStorageService
-      .get("pullRequestSummary")
-      .then((summary) => ({
+    return this.pullRequestService
+      .fetchPullRequestSummary()
+      .then((pullRequestSummary) => ({
         kind: "GetPullRequestSummaryResponse",
-        pullRequestSummary: summary ?? DEFAULT_PULL_REQUEST_SUMMARY,
+        pullRequestSummary,
       }));
   }
 }

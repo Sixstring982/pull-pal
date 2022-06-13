@@ -27,5 +27,8 @@ export const libMain = () => {
       .forEach((handler) => {
         handler.handleMessage(message, sender, sendResponse);
       });
+
+      // Indicate to the runtime that we'll send a response asynchronously.
+      return true;
   });
 };
