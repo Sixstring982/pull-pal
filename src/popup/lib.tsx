@@ -1,6 +1,12 @@
-import React from "react";
-import { render } from "react-dom";
+import React from 'react';
+import { createRoot } from "react-dom/client";
+import { App } from "./components/app";
 
 export const libMain = () => {
-  render(<div>Woohoo</div>, document.getElementById("react-root"));
+  const rootElement = document.getElementById("react-root");
+  if (rootElement === null) {
+    throw new Error('Expected to find element with ID "react-root"!');
+  }
+
+  createRoot(rootElement).render(<App />);
 };

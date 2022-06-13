@@ -5,6 +5,7 @@ import fse from "fs-extra";
 import path from "path";
 import { argv, exit } from "process";
 import { pnpPlugin } from "@yarnpkg/esbuild-plugin-pnp";
+import { sassPlugin, postcssModules } from "esbuild-sass-plugin";
 import { ENVIRONMENTS, isEnvironment } from "./src/common/environment";
 
 const BUILD_DIR = path.join(__dirname, "dist");
@@ -107,6 +108,11 @@ const commonEsbuildOptions = (projectName: string): Esbuild.BuildOptions => ({
   minify: ENVIRONMENT === "production",
   sourcemap: ENVIRONMENT === "production" ? undefined : "inline",
   plugins: [
+    // Loads scss files as css modules
+    sassPlugin({
+      transform: postcssModules({}),
+    }),
+    // Loads Yarn Berry pnp modules
     pnpPlugin({
       onResolve: defaultOnResolve,
     }),
@@ -128,7 +134,7 @@ const commonEsbuildOptions = (projectName: string): Esbuild.BuildOptions => ({
 Esbuild.build({
   entryPoints: [path.join(SRC_DIR, "popup", "main.ts")],
   outfile: path.join(BUILD_DIR, "popup.js"),
-  ...commonEsbuildOptions('Popup'),
+  ...commonEsbuildOptions("Popup"),
 })
   .then(() => {
     console.log("Popup build complete.");
@@ -141,7 +147,7 @@ Esbuild.build({
 Esbuild.build({
   entryPoints: [path.join(SRC_DIR, "serviceworker", "main.ts")],
   outfile: path.join(BUILD_DIR, "service_worker.js"),
-  ...commonEsbuildOptions('Service worker'),
+  ...commonEsbuildOptions("Service worker"),
 })
   .then(() => {
     console.log("Service worker build complete.");
