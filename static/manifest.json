@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Pull Pal",
+  "version": "0.0.1",
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "permissions": [
+    "alarms",
+    "storage"
+  ]
+}
