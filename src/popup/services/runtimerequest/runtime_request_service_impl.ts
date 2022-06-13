@@ -13,6 +13,10 @@ export class RuntimeRequestServiceImpl implements RuntimeRequestService {
   private readonly pullRequestSummarySubject =
     new BehaviorSubject<PullRequestSummary>(DEFAULT_PULL_REQUEST_SUMMARY);
 
+  constructor() {
+    this.refreshPullRequestSummary();
+  }
+
   /** @override */
   getPullRequestSummary$(): Observable<PullRequestSummary> {
     return this.pullRequestSummarySubject.asObservable();

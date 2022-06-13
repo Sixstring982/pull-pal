@@ -1,8 +1,12 @@
 import { ON_ONE_MINUTE_ALARM } from "./events/on_one_minute_alarm";
 import { ON_RUNTIME_MESSAGE } from "./events/on_runtime_message";
+import { ENSURE_CONSTRUCTRED } from "./services/ensure_constructed";
 import { getServiceContainer } from "./service_container";
 
 export const libMain = () => {
+  ////// Ensure constructed
+  getServiceContainer().resolveAll(ENSURE_CONSTRUCTRED);
+
   ////// Alarms
   // Register all alarms
   chrome.alarms.create("1-minute", {
@@ -28,7 +32,7 @@ export const libMain = () => {
         handler.handleMessage(message, sender, sendResponse);
       });
 
-      // Indicate to the runtime that we'll send a response asynchronously.
-      return true;
+    // Indicate to the runtime that we'll send a response asynchronously.
+    return true;
   });
 };

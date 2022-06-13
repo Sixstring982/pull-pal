@@ -1,5 +1,7 @@
+import { BehaviorSubject, Observable } from "rxjs";
 import { inject, injectable } from "tsyringe";
 import {
+  DEFAULT_PULL_REQUEST_SUMMARY,
   PullRequest,
   PullRequestGroupResult,
   PullRequestSummary,
@@ -12,10 +14,17 @@ import { PullRequestService } from "./pull_request_service";
 
 @injectable()
 export class PullRequestServiceImpl implements PullRequestService {
+  private readonly pullRequestSummarySubject =
+    new BehaviorSubject<PullRequestSummary>(DEFAULT_PULL_REQUEST_SUMMARY);
+
   constructor(
     @inject(LOCAL_STORAGE_SERVICE)
     private readonly localStorageService: LocalStorageService
   ) {}
+
+  getPullRequestSummary$(): Observable<PullRequestSummary> {
+    return this.pullRequestSummarySubject.asObservable();
+  }
 
   /** @override */
   readonly fetchPullRequestSummary = (): Promise<PullRequestSummary> => {
@@ -41,6 +50,7 @@ export class PullRequestServiceImpl implements PullRequestService {
       }))
       .then((summary) => {
         this.localStorageService.set("pullRequestSummary", summary);
+        this.pullRequestSummarySubject.next(summary);
         return summary;
       });
   };
