@@ -23,11 +23,11 @@ export class PullRequestServiceImpl implements PullRequestService {
       // Open drafts
       ["is:open", "is:pr", "draft:true", "author:@me", "archived:false"],
       // PRs ready to submit
-      // ["is:open", "is:pr", "author:@me", "review:approved", "archived:false"],
+      ["is:open", "is:pr", "author:@me", "review:approved", "archived:false"],
       // PRs ready to review
-      // ["is:open", "is:pr", "review-requested:@me"],
+      ["is:open", "is:pr", "review-requested:@me"],
       // My PRs waiting on others
-      // ["is:open", "is:pr", "draft:false", "author:@me", "review:required"],
+      ["is:open", "is:pr", "draft:false", "author:@me", "review:required"],
     ];
 
     const queryPromises = queries.map((query) => this.queryPullRequests(query));
@@ -73,14 +73,8 @@ export class PullRequestServiceImpl implements PullRequestService {
 }
 
 const toPullRequestGroup = (
-  result?: PromiseSettledResult<ReadonlyArray<PullRequest>>
+  result: PromiseSettledResult<ReadonlyArray<PullRequest>>
 ): PullRequestGroupResult => {
-  if (result === undefined) {
-    return {
-      kind: "PullRequestGroupFetchError",
-      errors: ["PullRequest fetch promise result is undefined."],
-    };
-  }
   if (result.status === "rejected") {
     return {
       kind: "PullRequestGroupFetchError",
@@ -90,7 +84,7 @@ const toPullRequestGroup = (
 
   return {
     kind: "PullRequestGroup",
-    fetchedAt: new Date(),
+    fetchedAtEpochMillis: new Date().getTime(),
     pullRequests: result.value,
   };
 };

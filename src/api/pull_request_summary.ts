@@ -23,7 +23,7 @@ export interface PullRequestGroupFetchError {
 
 export interface PullRequestGroup {
   readonly kind: "PullRequestGroup";
-  readonly fetchedAt: Date;
+  readonly fetchedAtEpochMillis: number;
   readonly pullRequests: readonly PullRequest[];
 }
 
