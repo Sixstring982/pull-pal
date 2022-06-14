@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.0.12"],\
             ["@types/react-dom", "npm:18.0.5"],\
             ["@yarnpkg/esbuild-plugin-pnp", "virtual:eb1ab18f7a2fdbd88bc336b71feec75c149cf26c9a890234995e64df506add2b691c11306e15e7387ee168628bd8f2c7c866f2dbcad4ca874b4f7e62a6edc2f3#npm:3.0.0-rc.9"],\
+            ["chokidar", "npm:3.5.3"],\
             ["esbuild", "npm:0.14.43"],\
             ["esbuild-sass-plugin", "npm:2.2.6"],\
             ["fs-extra", "npm:10.1.0"],\
@@ -1757,6 +1758,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.0.12"],\
             ["@types/react-dom", "npm:18.0.5"],\
             ["@yarnpkg/esbuild-plugin-pnp", "virtual:eb1ab18f7a2fdbd88bc336b71feec75c149cf26c9a890234995e64df506add2b691c11306e15e7387ee168628bd8f2c7c866f2dbcad4ca874b4f7e62a6edc2f3#npm:3.0.0-rc.9"],\
+            ["chokidar", "npm:3.5.3"],\
             ["esbuild", "npm:0.14.43"],\
             ["esbuild-sass-plugin", "npm:2.2.6"],\
             ["fs-extra", "npm:10.1.0"],\

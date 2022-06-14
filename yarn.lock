@@ -356,7 +356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0":
+"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -1450,6 +1450,7 @@ __metadata:
     "@types/react": ^18
     "@types/react-dom": ^18
     "@yarnpkg/esbuild-plugin-pnp": ^3.0.0-rc.9
+    chokidar: ^3.5.3
     esbuild: ^0.14.43
     esbuild-sass-plugin: ^2.2.6
     fs-extra: ^10.1.0

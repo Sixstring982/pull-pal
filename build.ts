@@ -1,7 +1,8 @@
 import * as Esbuild from "esbuild";
+import { watch } from "chokidar";
 import { OnResolveResult } from "esbuild";
 import fs from "fs";
-import fse from "fs-extra";
+import fse, { copy } from "fs-extra";
 import path from "path";
 import { argv, exit } from "process";
 import { pnpPlugin } from "@yarnpkg/esbuild-plugin-pnp";
@@ -43,7 +44,19 @@ if (fs.existsSync(BUILD_DIR)) {
 }
 
 // Copy static files
-fse.copySync(STATIC_DIR, BUILD_DIR);
+const copyStaticFiles = () => {
+  console.log('Copying static files...');
+  fse.copySync(STATIC_DIR, BUILD_DIR);
+};
+copyStaticFiles();
+
+// Watch for static file changes
+if (argv.includes("--watch")) {
+  const watcher = watch(STATIC_DIR, { persistent: true });
+  watcher.on("add", copyStaticFiles);
+  watcher.on("addDir", copyStaticFiles);
+  watcher.on("change", copyStaticFiles);
+}
 
 if (argv.includes("--watch")) {
   console.log("Starting build in watch mode...");
