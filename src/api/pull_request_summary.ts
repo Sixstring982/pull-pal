@@ -5,6 +5,9 @@ export interface PullRequest {
   readonly id: number;
   readonly url: string;
   readonly title: string;
+  readonly createdEpochMillis: number;
+  readonly authorUsername: string;
+  readonly authorUrl: string;
 }
 
 //

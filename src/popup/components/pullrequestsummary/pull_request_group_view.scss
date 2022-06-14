@@ -1,3 +1,35 @@
-.pull-request-group-wrapper {
-  border: 1px solid black;
+@import "../../style/card.scss";
+@import "../../style/colors.scss";
+
+@mixin pull-request-group-wrapper {
+  @include card;
+  margin: 1rem .25rem;
+}
+
+.error-group {
+  @include pull-request-group-wrapper;
+  background-color: $COLOR_RED;
+}
+
+.empty-group {
+  @include pull-request-group-wrapper;
+  background-color: $COLOR_GREEN;
+}
+
+.prs-group {
+  @include pull-request-group-wrapper;
+  background-color: $COLOR_ORANGE;
+
+  & > .status-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & > .pr-views {
+    & > .pr-view:not(:first-child) {
+      margin-top: 1rem;
+    }
+  }
 }

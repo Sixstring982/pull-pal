@@ -105,14 +105,24 @@ const toPullRequestGroup = (
       id: item.id,
       url: item.html_url,
       title: item.title,
+      createdEpochMillis: new Date(item.created_at).getTime(),
+      authorUsername: item.user.login,
+      authorUrl: item.user.html_url,
     })),
   };
 };
 
+interface GithubUser {
+  readonly login: string;
+  readonly html_url: string;
+}
+
 interface SearchItem {
   readonly id: number;
   readonly html_url: string;
+  readonly created_at: string;
   readonly title: string;
+  readonly user: GithubUser;
 }
 
 interface SearchResponseSuccess {

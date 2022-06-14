@@ -7,3 +7,10 @@ export const mapUndefinable = <A, B>(
   }
   return fn(a);
 };
+
+export const toList = <A>(a: A | undefined): readonly A[] => {
+  if (a === undefined) {
+    return [];
+  }
+  return [a];
+};

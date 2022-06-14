@@ -1,9 +1,13 @@
 import React from "react";
-import { PullRequestGroupResult } from "../../../api/pull_request_summary";
+import moment from "moment";
+import {
+  PullRequestGroup,
+  PullRequestGroupResult,
+} from "../../../api/pull_request_summary";
+import { PullRequestView, PullRequestViewFlag } from "./pull_request_view";
 import { mapStyles } from "../../../common/util/styles";
 
 import styleMap from "./pull_request_group_view.scss";
-import { PullRequestView } from "./pull_request_view";
 const styles = mapStyles(styleMap);
 
 export interface PullRequestGroupViewProps {
@@ -12,35 +16,65 @@ export interface PullRequestGroupViewProps {
 }
 
 export const PullRequestGroupView = (props: PullRequestGroupViewProps) => {
-  const countLabel = (() => {
-    if (props.pullRequestGroup.kind === "PullRequestGroup") {
-      return `: ${props.pullRequestGroup.pullRequests.length}`;
-    }
-    return undefined;
-  })();
+  if (props.pullRequestGroup.kind === "PullRequestGroup") {
+    return <Group group={props.pullRequestGroup} title={props.title} />;
+  }
 
   const content = (() => {
     switch (props.pullRequestGroup.kind) {
       case "PullRequestGroupNotYetFetched":
         return "Press 'Refresh' to fetch.";
       case "PullRequestGroupFetchError":
-        return `An error occurred while fetching pull requests: ${props.pullRequestGroup.errors.join(
-          "; "
-        )}`;
-      case "PullRequestGroup":
-        return props.pullRequestGroup.pullRequests.map((pr) => (
-          <PullRequestView key={pr.id} pullRequest={pr} />
-        ));
+        return (
+          "An error occurred while fetching pull requests: " +
+          props.pullRequestGroup.errors.join("; ")
+        );
     }
   })();
 
   return (
-    <div className={styles("pull-request-group-wrapper")}>
-      <h2>
-        {props.title}
-        {countLabel}
-      </h2>
+    <div className={styles("error-group")}>
+      <h2>{props.title}</h2>
       {content}
+    </div>
+  );
+};
+
+interface PullRequestGroupContentProps {
+  readonly group: PullRequestGroup;
+  readonly title: string;
+}
+
+const Group = (props: PullRequestGroupContentProps) => {
+  if (props.group.pullRequests.length === 0) {
+    return (
+      <div className={styles("empty-group")}>
+        <h2>{props.title}</h2>
+        You're caught up!
+      </div>
+    );
+  }
+
+  const views = props.group.pullRequests.map((pr) => (
+    <div key={pr.id} className={styles("pr-view")}>
+      <PullRequestView
+        pullRequest={pr}
+        options={new Set<PullRequestViewFlag>(["show-author", "show-age"])}
+      />
+    </div>
+  ));
+
+  const freshness = new Date(props.group.fetchedAtEpochMillis);
+
+  return (
+    <div className={styles("prs-group")}>
+      <div className={styles("status-row")}>
+        <h2>
+          {props.title}: {props.group.pullRequests.length}
+        </h2>
+        <small>Last refreshed {moment(freshness).fromNow()}</small>
+      </div>
+      <section className={styles("pr-views")}>{views}</section>
     </div>
   );
 };

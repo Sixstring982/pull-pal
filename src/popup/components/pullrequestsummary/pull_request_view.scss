@@ -1,3 +1,9 @@
+@import "../../style/card.scss";
+
 .pull-request-view-wrapper {
-  border: 1px solid black;
+  @include card;
+
+  & > .age-indicator {
+    cursor: help;
+  }
 }

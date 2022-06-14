@@ -1,4 +1,31 @@
-.card {
+@import "../../style/card.scss";
+@import "../../style/fab.scss";
+
+.pull-request-summary-card {
+  @include card;
+  margin: 1rem;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.5);
+
+  & > .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & > .ready-to-review-group {
+    background-color: $COLOR_RED;
+  }
+
+  & > .ready-to-submit-group {
+    background-color: $COLOR_GREEN;
+  }
+
+  & > .waiting-for-others-group {
+    background-color: $COLOR_YELLOW;
+  }
+
+  & > .drafts-group {
+    background-color: $COLOR_GRAY;
+  }
 }

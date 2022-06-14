@@ -13,8 +13,8 @@ const lookupStyle =
     const compiledStyle = styleMap[style];
     if (compiledStyle === undefined) {
       const error = {
-        styleMap,
         style,
+        styleNames: Object.keys(styleMap).sort(),
       };
       throw new Error(`Can't find style definition: ${JSON.stringify(error)}`);
     }

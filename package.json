@@ -2,6 +2,7 @@
   "name": "pull-pal-extension",
   "packageManager": "yarn@3.2.1",
   "dependencies": {
+    "moment": "^2.29.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "reflect-metadata": "^0.1.13",
@@ -16,6 +17,7 @@
     "@types/react-dom": "^18",
     "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.9",
     "chokidar": "^3.5.3",
+    "dependency-cruiser": "^11.10.0",
     "esbuild": "^0.14.43",
     "esbuild-sass-plugin": "^2.2.6",
     "fs-extra": "^10.1.0",
@@ -27,6 +29,7 @@
   },
   "scripts": {
     "build": "ts-node build.ts",
+    "depcheck": "yarn depcruise --config ./.dependency-cruiser.js src/ build.ts",
     "formatcheck": "prettier --check ./src/**/*.ts",
     "typecheck": "tsc --project tsconfig.json --noEmit"
   }

@@ -1,6 +1,7 @@
 import React from "react";
+import { PullRequestGroupResult } from "../../../api/pull_request_summary";
 import { useObservable } from "../../../common/util/hooks";
-import { mapUndefinable } from "../../../common/util/nullable";
+import { mapUndefinable, toList } from "../../../common/util/nullable";
 import { mapStyles } from "../../../common/util/styles";
 import { RUNTIME_REQUEST_SERVICE } from "../../services/runtimerequest/runtime_request_service";
 import { getServiceContainer } from "../../services/service_container";
@@ -40,9 +41,16 @@ export const PullRequestSummaryCard = () => {
   ));
 
   return (
-    <div className={styles("card")}>
-      <h1>Pull requests</h1>
-      <button onClick={refreshPullRequests}>Refresh</button>
+    <div className={styles("pull-request-summary-card")}>
+      <div className={styles("header-row")}>
+        <h1>Pull requests</h1>
+        <button
+          className={"material-symbols-outlined " + styles("fab")}
+          onClick={refreshPullRequests}
+        >
+          refresh
+        </button>
+      </div>
       {groupViews}
     </div>
   );

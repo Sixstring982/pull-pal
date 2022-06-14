@@ -8,9 +8,9 @@ export const AppHeader = () => (
   <div className={styles("header-wrapper")}>
     <div className={styles("logo")}>Pull Pal</div>
     <div className={styles("nav")}>
-      <span className={"material-symbols-outlined " + styles("fab")}>
+      <button className={"material-symbols-outlined " + styles("fab")}>
         settings
-      </span>
+      </button>
     </div>
   </div>
 );

@@ -1,0 +1,8 @@
+@import "./colors.scss";
+
+@mixin card {
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: $COLOR_WHITE;
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.4);
+}
