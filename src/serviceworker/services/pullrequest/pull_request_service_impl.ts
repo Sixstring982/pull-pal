@@ -42,10 +42,10 @@ export class PullRequestServiceImpl implements PullRequestService {
     const queryPromises = queries.map((query) => this.queryPullRequests(query));
 
     return Promise.allSettled(queryPromises)
-      .then(([drafts, readyToReview, readyToSubmit, waitingForOthers]) => ({
+      .then(([drafts, readyToSubmit, readyToReview, waitingForOthers]) => ({
         drafts: toPullRequestGroup(drafts),
-        readyToReview: toPullRequestGroup(readyToReview),
         readyToSubmit: toPullRequestGroup(readyToSubmit),
+        readyToReview: toPullRequestGroup(readyToReview),
         waitingForOthers: toPullRequestGroup(waitingForOthers),
       }))
       .then((summary) => {
@@ -70,7 +70,12 @@ export class PullRequestServiceImpl implements PullRequestService {
             Authorization: `token ${accessToken}`,
             Accept: "application/vnd.github.v3+json",
           }),
-        }).then((response) => response.json() as Promise<SearchResponse>)
+        })
+          .then((response) => response.json() as Promise<SearchResponse>)
+          .then((x) => {
+            console.log(x);
+            return x;
+          })
       );
   }
 }
@@ -97,13 +102,17 @@ const toPullRequestGroup = (
     fetchedAtEpochMillis: new Date().getTime(),
     pullRequests: result.value.items.map((item) => ({
       kind: "PullRequest",
+      id: item.id,
       url: item.html_url,
+      title: item.title,
     })),
   };
 };
 
 interface SearchItem {
+  readonly id: number;
   readonly html_url: string;
+  readonly title: string;
 }
 
 interface SearchResponseSuccess {

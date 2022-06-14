@@ -1,8 +1,10 @@
 import React from "react";
 import { useObservable } from "../../../common/util/hooks";
+import { mapUndefinable } from "../../../common/util/nullable";
 import { mapStyles } from "../../../common/util/styles";
 import { RUNTIME_REQUEST_SERVICE } from "../../services/runtimerequest/runtime_request_service";
 import { getServiceContainer } from "../../services/service_container";
+import { PullRequestGroupView } from "./pull_request_group_view";
 
 import styleMap from "./pull_request_summary_card.scss";
 const styles = mapStyles(styleMap);
@@ -19,11 +21,29 @@ export const PullRequestSummaryCard = () => {
     runtimeRequestService.refreshPullRequestSummary();
   };
 
+  const groupViews = mapUndefinable(pullRequestSummary, (summary) => (
+    <>
+      <PullRequestGroupView
+        pullRequestGroup={summary.readyToReview}
+        title="Ready to review"
+      />
+      <PullRequestGroupView
+        pullRequestGroup={summary.readyToSubmit}
+        title="Ready to submit"
+      />
+      <PullRequestGroupView
+        pullRequestGroup={summary.waitingForOthers}
+        title="Waiting for other to review"
+      />
+      <PullRequestGroupView pullRequestGroup={summary.drafts} title="Drafts" />
+    </>
+  ));
+
   return (
     <div className={styles("card")}>
       <h1>Pull requests</h1>
       <button onClick={refreshPullRequests}>Refresh</button>
-      {JSON.stringify(pullRequestSummary)}
+      {groupViews}
     </div>
   );
 };
