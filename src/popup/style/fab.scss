@@ -1,0 +1,24 @@
+.fab {
+  border-radius: 50%;
+  padding: 0.5rem;
+  background-color: $COLOR_NAVY;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+
+  transition: all 128ms ease-in-out;
+  transform: translateY(0);
+
+  &:hover {
+    color: $COLOR_NAVY;
+    background-color: white;
+    transform: translateY(-4px);
+  }
+
+  &:active {
+    transition: none;
+    background-color: $COLOR_PURPLE;
+    color: white;
+    transform: translateY(-4px);
+  }
+}
