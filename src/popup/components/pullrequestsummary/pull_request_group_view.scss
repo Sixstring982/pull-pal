@@ -25,6 +25,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    & > .group-header {
+      cursor: help;
+      user-select: none;
+    }
   }
 
   & > .pr-views {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import moment from "moment";
 import {
   PullRequestGroup,
@@ -13,11 +13,18 @@ const styles = mapStyles(styleMap);
 export interface PullRequestGroupViewProps {
   readonly pullRequestGroup: PullRequestGroupResult;
   readonly title: string;
+  readonly tooltip?: string;
 }
 
 export const PullRequestGroupView = (props: PullRequestGroupViewProps) => {
   if (props.pullRequestGroup.kind === "PullRequestGroup") {
-    return <Group group={props.pullRequestGroup} title={props.title} />;
+    return (
+      <Group
+        group={props.pullRequestGroup}
+        title={props.title}
+        tooltip={props.tooltip}
+      />
+    );
   }
 
   const content = (() => {
@@ -34,7 +41,7 @@ export const PullRequestGroupView = (props: PullRequestGroupViewProps) => {
 
   return (
     <div className={styles("error-group")}>
-      <h2>{props.title}</h2>
+      <h2 title={props.tooltip}>{props.title}</h2>
       {content}
     </div>
   );
@@ -43,17 +50,29 @@ export const PullRequestGroupView = (props: PullRequestGroupViewProps) => {
 interface PullRequestGroupContentProps {
   readonly group: PullRequestGroup;
   readonly title: string;
+  readonly tooltip?: string;
 }
 
 const Group = (props: PullRequestGroupContentProps) => {
   if (props.group.pullRequests.length === 0) {
     return (
       <div className={styles("empty-group")}>
-        <h2>{props.title}</h2>
+        <h2 title={props.tooltip}>{props.title}</h2>
         You're caught up!
       </div>
     );
   }
+
+  const [_, refresh] = useState(undefined);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refresh(undefined);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const views = props.group.pullRequests.map((pr) => (
     <div key={pr.id} className={styles("pr-view")}>
@@ -69,7 +88,7 @@ const Group = (props: PullRequestGroupContentProps) => {
   return (
     <div className={styles("prs-group")}>
       <div className={styles("status-row")}>
-        <h2>
+        <h2 className={styles("group-header")} title={props.tooltip}>
           {props.title}: {props.group.pullRequests.length}
         </h2>
         <small>Last refreshed {moment(freshness).fromNow()}</small>

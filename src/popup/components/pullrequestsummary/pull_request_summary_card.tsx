@@ -26,10 +26,12 @@ export const PullRequestSummaryCard = () => {
     <>
       <PullRequestGroupView
         pullRequestGroup={summary.readyToReview}
+        tooltip="Review these PRs quickly to unblock your teammates!"
         title="Ready to review"
       />
       <PullRequestGroupView
         pullRequestGroup={summary.readyToSubmit}
+        tooltip="Submit these PRs: they're ready to go!"
         title="Ready to submit"
       />
       <PullRequestGroupView
