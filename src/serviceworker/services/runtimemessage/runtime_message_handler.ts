@@ -9,7 +9,7 @@ import { OnRuntimeMessage } from "../../events/on_runtime_message";
 import {
   LocalStorageService,
   LOCAL_STORAGE_SERVICE,
-} from "../localstorage/local_storage_service";
+} from "../../../common/services/localstorage/local_storage_service";
 import {
   PullRequestService,
   PULL_REQUEST_SERVICE,

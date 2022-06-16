@@ -9,7 +9,7 @@ import {
 import {
   LocalStorageService,
   LOCAL_STORAGE_SERVICE,
-} from "../localstorage/local_storage_service";
+} from "../../../common/services/localstorage/local_storage_service";
 import { PullRequestService } from "./pull_request_service";
 
 @injectable()
@@ -20,7 +20,11 @@ export class PullRequestServiceImpl implements PullRequestService {
   constructor(
     @inject(LOCAL_STORAGE_SERVICE)
     private readonly localStorageService: LocalStorageService
-  ) {}
+  ) {
+    this.localStorageService.getUpdate$("githubAccessToken").subscribe(() => {
+      this.fetchPullRequestSummary();
+    });
+  }
 
   getPullRequestSummary$(): Observable<PullRequestSummary> {
     return this.pullRequestSummarySubject.asObservable();
@@ -92,8 +96,7 @@ const toPullRequestGroup = (
 
   if (isSearchResponseBadCredentials(result.value)) {
     return {
-      kind: "PullRequestGroupFetchError",
-      errors: ["Bad credentials."],
+      kind: "PullRequestGroupFetchBadCredentials",
     };
   }
 

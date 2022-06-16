@@ -1,5 +1,11 @@
+import { KeyObject } from "crypto";
 import React from "react";
-import { PullRequestGroupResult } from "../../../api/pull_request_summary";
+import {
+  DEFAULT_PULL_REQUEST_SUMMARY,
+  getPullRequestGroups,
+  PullRequestGroupResult,
+} from "../../../api/pull_request_summary";
+import { LOCAL_STORAGE_SERVICE } from "../../../common/services/localstorage/local_storage_service";
 import { useObservable } from "../../../common/util/hooks";
 import { mapUndefinable, toList } from "../../../common/util/nullable";
 import { mapStyles } from "../../../common/util/styles";
@@ -10,7 +16,11 @@ import { PullRequestGroupView } from "./pull_request_group_view";
 import styleMap from "./pull_request_summary_card.scss";
 const styles = mapStyles(styleMap);
 
-export const PullRequestSummaryCard = () => {
+export interface PullRequestSummaryCardProps {
+  readonly onSettingsButtonClick: () => void;
+}
+
+export const PullRequestSummaryCard = (props: PullRequestSummaryCardProps) => {
   const runtimeRequestService = getServiceContainer().resolve(
     RUNTIME_REQUEST_SERVICE
   );
@@ -21,6 +31,27 @@ export const PullRequestSummaryCard = () => {
   const refreshPullRequests = () => {
     runtimeRequestService.refreshPullRequestSummary();
   };
+
+  const error = (() => {
+    if (pullRequestSummary === undefined) {
+      return undefined;
+    }
+
+    if (
+      getPullRequestGroups(pullRequestSummary).some(
+        (x) => x.kind === "PullRequestGroupFetchBadCredentials"
+      )
+    ) {
+      return (
+        <>
+          GitHub did not accept your credentials!
+          <button onClick={props.onSettingsButtonClick}>
+            Configure credentials
+          </button>
+        </>
+      );
+    }
+  })();
 
   const groupViews = mapUndefinable(pullRequestSummary, (summary) => (
     <>
@@ -53,6 +84,7 @@ export const PullRequestSummaryCard = () => {
           refresh
         </button>
       </div>
+      {error}
       {groupViews}
     </div>
   );

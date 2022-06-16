@@ -1,3 +1,4 @@
+import { ON_STORAGE_CHANGE } from "../common/events/on_storage_change";
 import { ON_ONE_MINUTE_ALARM } from "./events/on_one_minute_alarm";
 import { ON_RUNTIME_MESSAGE } from "./events/on_runtime_message";
 import { ENSURE_CONSTRUCTRED } from "./services/ensure_constructed";
@@ -34,5 +35,14 @@ export const libMain = () => {
 
     // Indicate to the runtime that we'll send a response asynchronously.
     return true;
+  });
+
+  ////// Local storage events
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    getServiceContainer()
+      .resolveAll(ON_STORAGE_CHANGE)
+      .forEach((handler) => {
+        handler.handleStorageChange(changes, areaName);
+      });
   });
 };

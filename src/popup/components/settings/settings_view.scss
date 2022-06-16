@@ -1,0 +1,13 @@
+@import '../../style/card.scss';
+@import '../../style/colors.scss';
+
+.card {
+  @include card;
+}
+
+.callout {
+  background-color: $COLOR_GRAY;
+  border-radius: 8px;
+  padding: .5rem;
+  margin: .5rem
+}

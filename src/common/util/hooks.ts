@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Observable } from "rxjs";
 
-export const useObservable = <T>(observable: Observable<T>): T | undefined => {
+export function useObservable<T>(
+  observable: Observable<T>,
+  defaultValue?: T
+): T;
+export function useObservable<T>(observable: Observable<T>): T | undefined {
   const [currentState, setState] = useState<T | undefined>(undefined);
 
   useEffect(() => {
@@ -15,4 +19,4 @@ export const useObservable = <T>(observable: Observable<T>): T | undefined => {
   });
 
   return currentState;
-};
+}

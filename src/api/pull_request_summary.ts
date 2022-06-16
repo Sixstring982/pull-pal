@@ -27,6 +27,10 @@ export interface PullRequestGroupFetchError {
   readonly errors: NonEmptyArray<string>;
 }
 
+export interface PullRequestGroupFetchBadCredentials {
+  readonly kind: "PullRequestGroupFetchBadCredentials";
+}
+
 export interface PullRequestGroup {
   readonly kind: "PullRequestGroup";
   readonly fetchedAtEpochMillis: number;
@@ -35,6 +39,7 @@ export interface PullRequestGroup {
 
 export type PullRequestGroupResult =
   | PullRequestGroupNotYetFetched
+  | PullRequestGroupFetchBadCredentials
   | PullRequestGroupFetchError
   | PullRequestGroup;
 
@@ -48,6 +53,10 @@ export interface PullRequestSummary {
   readonly readyToReview: PullRequestGroupResult;
   readonly waitingForOthers: PullRequestGroupResult;
 }
+
+export const getPullRequestGroups = (
+  summary: PullRequestSummary
+): readonly PullRequestGroupResult[] => Object.values(summary);
 
 export const DEFAULT_PULL_REQUEST_SUMMARY: PullRequestSummary = {
   drafts: PULL_REQUEST_GROUP_NOT_YET_FETCHED,
