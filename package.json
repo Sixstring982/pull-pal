@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "ts-node build.ts",
-    "package": "ts-node build.ts --environment=production && zip -r pull-pal.zip ./dist/*",
+    "package": "ts-node build.ts --environment=production && zip -r -j pull-pal.zip ./dist/*",
     "depcheck": "yarn depcruise --config ./.dependency-cruiser.js src/ build.ts",
     "formatcheck": "prettier --check ./src/**/*.ts",
     "typecheck": "tsc --project tsconfig.json --noEmit"
