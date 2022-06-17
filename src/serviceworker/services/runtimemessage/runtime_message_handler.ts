@@ -26,7 +26,7 @@ export class RuntimeMessageHandler implements OnRuntimeMessage {
 
   handleMessage(
     message: unknown,
-    sender: chrome.runtime.MessageSender,
+    _: chrome.runtime.MessageSender,
     sendResponse: (_: unknown) => void
   ): void {
     const responsePromise = (() => {
@@ -44,11 +44,9 @@ export class RuntimeMessageHandler implements OnRuntimeMessage {
   private handleGetPullRequestSummaryRequest(
     request: GetPullRequestSummaryRequest
   ): Promise<GetPullRequestSummaryResponse> {
-    return this.pullRequestService
-      .fetchPullRequestSummary()
-      .then((pullRequestSummary) => ({
-        kind: "GetPullRequestSummaryResponse",
-        pullRequestSummary,
-      }));
+    return this.pullRequestService.fetchPullRequestSummary().then((delta) => ({
+      kind: "GetPullRequestSummaryResponse",
+      pullRequestSummary: delta.newValue ?? DEFAULT_PULL_REQUEST_SUMMARY,
+    }));
   }
 }

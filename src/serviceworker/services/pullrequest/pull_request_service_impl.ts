@@ -10,12 +10,14 @@ import {
   LocalStorageService,
   LOCAL_STORAGE_SERVICE,
 } from "../../../common/services/localstorage/local_storage_service";
+import { Delta } from "../../../common/util/delta";
 import { PullRequestService } from "./pull_request_service";
 
 @injectable()
 export class PullRequestServiceImpl implements PullRequestService {
-  private readonly pullRequestSummarySubject =
-    new BehaviorSubject<PullRequestSummary>(DEFAULT_PULL_REQUEST_SUMMARY);
+  private readonly pullRequestSummarySubject = new BehaviorSubject<
+    Delta<PullRequestSummary>
+  >({});
 
   constructor(
     @inject(LOCAL_STORAGE_SERVICE)
@@ -25,13 +27,17 @@ export class PullRequestServiceImpl implements PullRequestService {
       this.fetchPullRequestSummary();
     });
   }
-
-  getPullRequestSummary$(): Observable<PullRequestSummary> {
-    return this.pullRequestSummarySubject.asObservable();
-  }
+  /** @override */
+  readonly getPullRequestSummary$ = (): Observable<Delta<PullRequestSummary>> =>
+    this.pullRequestSummarySubject.asObservable();
 
   /** @override */
-  readonly fetchPullRequestSummary = (): Promise<PullRequestSummary> => {
+  readonly getPullRequestSummary = (): PullRequestSummary =>
+    this.pullRequestSummarySubject.value.newValue ??
+    DEFAULT_PULL_REQUEST_SUMMARY;
+
+  /** @override */
+  readonly fetchPullRequestSummary = (): Promise<Delta<PullRequestSummary>> => {
     const queries = [
       // Open drafts
       ["is:open", "is:pr", "draft:true", "author:@me", "archived:false"],
@@ -52,10 +58,16 @@ export class PullRequestServiceImpl implements PullRequestService {
         readyToReview: toPullRequestGroup(readyToReview),
         waitingForOthers: toPullRequestGroup(waitingForOthers),
       }))
-      .then((summary) => {
-        this.localStorageService.set("pullRequestSummary", summary);
-        this.pullRequestSummarySubject.next(summary);
-        return summary;
+      .then((summary) =>
+        this.localStorageService.get("pullRequestSummary").then((oldDelta) => ({
+          oldValue: oldDelta?.newValue,
+          newValue: summary,
+        }))
+      )
+      .then((newDelta) => {
+        this.localStorageService.set("pullRequestSummary", newDelta);
+        this.pullRequestSummarySubject.next(newDelta);
+        return newDelta;
       });
   };
 

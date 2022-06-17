@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import {
+  DEFAULT_PULL_REQUEST_SUMMARY,
   PullRequestGroup,
   PullRequestGroupResult,
   PullRequestSummary,
@@ -20,7 +21,9 @@ export class BadgeService {
     @inject(PULL_REQUEST_SERVICE) pullRequestService: PullRequestService
   ) {
     pullRequestService.getPullRequestSummary$().subscribe((summary) => {
-      const state = computeState(summary);
+      const state = computeState(
+        summary.newValue ?? DEFAULT_PULL_REQUEST_SUMMARY
+      );
 
       chrome.action.setBadgeBackgroundColor({
         color: state.color,
