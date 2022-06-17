@@ -2,6 +2,14 @@
   "manifest_version": 3,
   "name": "Pull Pal",
   "version": "0.0.1",
+  "icons": {
+    "16": "pull-pal-16.png",
+    "32": "pull-pal-32.png",
+    "48": "pull-pal-48.png",
+    "64": "pull-pal-64.png",
+    "96": "pull-pal-96.png",
+    "128":"pull-pal-128.png"
+  },
   "action": {
     "default_popup": "popup.html"
   },
