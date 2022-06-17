@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pull Pal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icons": {
     "16": "pull-pal-16.png",
     "32": "pull-pal-32.png",
