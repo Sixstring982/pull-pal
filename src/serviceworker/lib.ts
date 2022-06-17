@@ -1,6 +1,6 @@
 import { ON_STORAGE_CHANGE } from "../common/events/on_storage_change";
 import { ON_NOTIFICATION_CLICK } from "./events/on_notification_click";
-import { ON_ONE_MINUTE_ALARM } from "./events/on_one_minute_alarm";
+import { ON_FIVE_MINUTE_ALARM } from "./events/on_five_minute_alarm";
 import { ON_RUNTIME_MESSAGE } from "./events/on_runtime_message";
 import { ENSURE_CONSTRUCTRED } from "./services/ensure_constructed";
 import { getServiceContainer } from "./service_container";
@@ -11,15 +11,15 @@ export const libMain = () => {
 
   ////// Alarms
   // Register all alarms
-  chrome.alarms.create("1-minute", {
+  chrome.alarms.create("5-minute", {
     delayInMinutes: 0,
-    periodInMinutes: 1,
+    periodInMinutes: 5,
   });
   // Alarm listeners
   chrome.alarms.onAlarm.addListener((e) => {
-    if (e.name === "1-minute") {
+    if (e.name === "5-minute") {
       getServiceContainer()
-        .resolveAll(ON_ONE_MINUTE_ALARM)
+        .resolveAll(ON_FIVE_MINUTE_ALARM)
         .forEach((handler) => {
           handler.handleAlarm(e);
         });

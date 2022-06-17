@@ -1,5 +1,5 @@
 import { Lifecycle, registry } from "tsyringe";
-import { ON_ONE_MINUTE_ALARM } from "../../events/on_one_minute_alarm";
+import { ON_FIVE_MINUTE_ALARM } from "../../events/on_five_minute_alarm";
 import { FetchPullRequestsAlarm } from "./fetch_pull_requestst_alarm";
 import { PULL_REQUEST_SERVICE } from "./pull_request_service";
 import { PullRequestServiceImpl } from "./pull_request_service_impl";
@@ -13,7 +13,7 @@ import { PullRequestServiceImpl } from "./pull_request_service_impl";
   },
   // FetchPullRequestsAlarm
   {
-    token: ON_ONE_MINUTE_ALARM,
+    token: ON_FIVE_MINUTE_ALARM,
     useClass: FetchPullRequestsAlarm,
     options: { lifecycle: Lifecycle.Singleton },
   },
