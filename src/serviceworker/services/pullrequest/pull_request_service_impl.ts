@@ -87,12 +87,8 @@ export class PullRequestServiceImpl implements PullRequestService {
             Accept: "application/vnd.github.v3+json",
           }),
         })
-          .then((response) => response.json() as Promise<SearchResponse>)
-          .then((x) => {
-            console.log(x);
-            return x;
-          })
-      );
+      )
+      .then((response) => response.json() as Promise<SearchResponse>);
   }
 }
 
