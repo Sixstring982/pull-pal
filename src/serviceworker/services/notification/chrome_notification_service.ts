@@ -10,15 +10,18 @@ import {
   PULL_REQUEST_SERVICE,
 } from "../pullrequest/pull_request_service";
 import { OnNotificationClick } from "../../events/on_notification_click";
+import {
+  LocalStorageService,
+  LOCAL_STORAGE_SERVICE,
+} from "../../../common/services/localstorage/local_storage_service";
 
 export const CHROME_NOTIFICATION_SERVICE: InjectionToken<ChromeNotificationService> =
   Symbol("ChromeNotificationService");
 
 @injectable()
 export class ChromeNotificationService implements OnNotificationClick {
-  private oldSummary: PullRequestSummary = DEFAULT_PULL_REQUEST_SUMMARY;
-
   constructor(
+    @inject(LOCAL_STORAGE_SERVICE) localStorageService: LocalStorageService,
     @inject(PULL_REQUEST_SERVICE) pullRequestService: PullRequestService
   ) {
     pullRequestService.getPullRequestSummary$().subscribe((summary) => {
