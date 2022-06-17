@@ -1,4 +1,5 @@
 import { ON_STORAGE_CHANGE } from "../common/events/on_storage_change";
+import { ON_NOTIFICATION_CLICK } from "./events/on_notification_click";
 import { ON_ONE_MINUTE_ALARM } from "./events/on_one_minute_alarm";
 import { ON_RUNTIME_MESSAGE } from "./events/on_runtime_message";
 import { ENSURE_CONSTRUCTRED } from "./services/ensure_constructed";
@@ -43,6 +44,15 @@ export const libMain = () => {
       .resolveAll(ON_STORAGE_CHANGE)
       .forEach((handler) => {
         handler.handleStorageChange(changes, areaName);
+      });
+  });
+
+  ////// Chrome notification events
+  chrome.notifications.onClicked.addListener((id) => {
+    getServiceContainer()
+      .resolveAll(ON_NOTIFICATION_CLICK)
+      .forEach((handler) => {
+        handler.handleClick(id);
       });
   });
 };

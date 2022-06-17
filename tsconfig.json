@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
+    "downlevelIteration": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
