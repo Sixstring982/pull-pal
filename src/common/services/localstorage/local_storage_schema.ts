@@ -1,7 +1,4 @@
-import {
-  DEFAULT_PULL_REQUEST_SUMMARY,
-  PullRequestSummary,
-} from "../../../api/pull_request_summary";
+import { PullRequestSummary } from "../../../api/api";
 import { Delta } from "../../util/delta";
 
 export interface LocalStorageSchema {

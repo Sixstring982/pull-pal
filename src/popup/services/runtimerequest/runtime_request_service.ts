@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { InjectionToken } from "tsyringe";
-import { PullRequestSummary } from "../../../api/pull_request_summary";
+import { PullRequestSummary } from "../../../api/api";
 
 export const RUNTIME_REQUEST_SERVICE: InjectionToken<RuntimeRequestService> =
   Symbol("RuntimeRequestService");

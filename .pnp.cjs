@@ -65,7 +65,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-jest", "virtual:eb1ab18f7a2fdbd88bc336b71feec75c149cf26c9a890234995e64df506add2b691c11306e15e7387ee168628bd8f2c7c866f2dbcad4ca874b4f7e62a6edc2f3#npm:28.0.7"],\
             ["ts-node", "virtual:eb1ab18f7a2fdbd88bc336b71feec75c149cf26c9a890234995e64df506add2b691c11306e15e7387ee168628bd8f2c7c866f2dbcad4ca874b4f7e62a6edc2f3#npm:10.8.1"],\
             ["tsyringe", "npm:4.7.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"],\
+            ["zod", "npm:3.17.10"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -6975,7 +6976,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-jest", "virtual:eb1ab18f7a2fdbd88bc336b71feec75c149cf26c9a890234995e64df506add2b691c11306e15e7387ee168628bd8f2c7c866f2dbcad4ca874b4f7e62a6edc2f3#npm:28.0.7"],\
             ["ts-node", "virtual:eb1ab18f7a2fdbd88bc336b71feec75c149cf26c9a890234995e64df506add2b691c11306e15e7387ee168628bd8f2c7c866f2dbcad4ca874b4f7e62a6edc2f3#npm:10.8.1"],\
             ["tsyringe", "npm:4.7.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"],\
+            ["zod", "npm:3.17.10"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -8200,6 +8202,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yocto-queue-npm-0.1.0-c6c9a7db29-f77b3d8d00.zip/node_modules/yocto-queue/",\
           "packageDependencies": [\
             ["yocto-queue", "npm:0.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["zod", [\
+        ["npm:3.17.10", {\
+          "packageLocation": "./.yarn/cache/zod-npm-3.17.10-7952dcfecb-5de630b8ec.zip/node_modules/zod/",\
+          "packageDependencies": [\
+            ["zod", "npm:3.17.10"]\
           ],\
           "linkType": "HARD"\
         }]\

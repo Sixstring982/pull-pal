@@ -1,9 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
-import {
-  PullRequestGroup,
-  PullRequestGroupResult,
-} from "../../../api/pull_request_summary";
+import { PullRequestGroup, PullRequestGroupResult } from "../../../api/api";
 import { PullRequestView, PullRequestViewFlag } from "./pull_request_view";
 import { mapStyles } from "../../../common/util/styles";
 

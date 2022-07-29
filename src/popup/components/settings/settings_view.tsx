@@ -49,11 +49,11 @@ const AccessTokenForm = () => {
             This token is stored as plaintext in local storage - someone with
             access to your machine could read this token via the Chrome
             devtools. If you're concerned about this, some options are:
-            <ul>
-              <li>Configure your access token to expire quickly</li>
-              <li>Clear your access token by setting an empty one here</li>
-            </ul>
           </p>
+          <ul>
+            <li>Configure your access token to expire quickly</li>
+            <li>Clear your access token by setting an empty one here</li>
+          </ul>
         </details>
         <input ref={tokenInputRef} type="password" />
         <input type="submit" />

@@ -3,11 +3,12 @@ import { inject, injectable } from "tsyringe";
 import {
   GetPullRequestSummaryRequest,
   GetPullRequestSummaryResponse,
+  getPullRequestSummaryResponseSchema,
 } from "../../../api/api";
 import {
   DEFAULT_PULL_REQUEST_SUMMARY,
   PullRequestSummary,
-} from "../../../api/pull_request_summary";
+} from "../../../api/api";
 import {
   LocalStorageService,
   LOCAL_STORAGE_SERVICE,
@@ -42,8 +43,15 @@ export class RuntimeRequestServiceImpl implements RuntimeRequestService {
 
     return chrome.runtime
       .sendMessage(message)
-      .then((response: GetPullRequestSummaryResponse) => {
-        this.pullRequestSummarySubject.next(response.pullRequestSummary);
+      .then(getPullRequestSummaryResponseSchema.safeParseAsync)
+      .then((parseResult) => {
+        if (!parseResult.success) {
+          throw parseResult.error;
+        }
+
+        this.pullRequestSummarySubject.next(
+          parseResult.data.pullRequestSummary
+        );
       });
   }
 }

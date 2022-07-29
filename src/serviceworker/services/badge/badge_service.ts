@@ -1,10 +1,9 @@
 import { inject, injectable } from "tsyringe";
 import {
   DEFAULT_PULL_REQUEST_SUMMARY,
-  PullRequestGroup,
   PullRequestGroupResult,
   PullRequestSummary,
-} from "../../../api/pull_request_summary";
+} from "../../../api/api";
 import {
   PullRequestService,
   PULL_REQUEST_SERVICE,

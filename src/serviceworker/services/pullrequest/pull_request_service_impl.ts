@@ -2,10 +2,9 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { inject, injectable } from "tsyringe";
 import {
   DEFAULT_PULL_REQUEST_SUMMARY,
-  PullRequest,
   PullRequestGroupResult,
   PullRequestSummary,
-} from "../../../api/pull_request_summary";
+} from "../../../api/api";
 import {
   LocalStorageService,
   LOCAL_STORAGE_SERVICE,
@@ -112,7 +111,7 @@ const toPullRequestGroup = (
   return {
     kind: "PullRequestGroup",
     fetchedAtEpochMillis: new Date().getTime(),
-    pullRequests: result.value.items.map((item) => ({
+    pullRequests: (result.value.items ?? []).map((item) => ({
       kind: "PullRequest",
       id: item.id,
       url: item.html_url,
@@ -139,7 +138,7 @@ interface SearchItem {
 
 interface SearchResponseSuccess {
   readonly incomplete_results: boolean;
-  readonly items: readonly SearchItem[];
+  readonly items?: readonly SearchItem[];
 }
 
 interface SearchResponseBadCredentials {

@@ -1,6 +1,7 @@
-import moment from "moment";
 import React from "react";
-import { PullRequest } from "../../../api/pull_request_summary";
+import moment from "moment";
+
+import { PullRequest } from "../../../api/api";
 import { mapStyles } from "../../../common/util/styles";
 
 import styleMap from "./pull_request_view.scss";
