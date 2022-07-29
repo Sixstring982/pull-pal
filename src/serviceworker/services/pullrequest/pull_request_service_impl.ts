@@ -27,6 +27,7 @@ export class PullRequestServiceImpl implements PullRequestService {
       this.fetchPullRequestSummary();
     });
   }
+
   /** @override */
   readonly getPullRequestSummary$ = (): Observable<Delta<PullRequestSummary>> =>
     this.pullRequestSummarySubject.asObservable();
