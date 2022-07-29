@@ -5078,6 +5078,7 @@ __metadata:
     ts-node: ^10.8.1
     tsyringe: ^4.7.0
     typescript: ^4.7.3
+    zod: ^3.17.10
   languageName: unknown
   linkType: soft
 
@@ -6147,5 +6148,12 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.17.10":
+  version: 3.17.10
+  resolution: "zod@npm:3.17.10"
+  checksum: 5de630b8eceda3de211cce0a734b629f8c4ca4bc887127b0ebd57e9c9be23204725e60adf2faf1c5ccb9b660c7588a8b04f60dfda1ed8e67a789e93c15f838f1
   languageName: node
   linkType: hard

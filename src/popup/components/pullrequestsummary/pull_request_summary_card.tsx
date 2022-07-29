@@ -1,13 +1,7 @@
-import { KeyObject } from "crypto";
 import React from "react";
-import {
-  DEFAULT_PULL_REQUEST_SUMMARY,
-  getPullRequestGroups,
-  PullRequestGroupResult,
-} from "../../../api/pull_request_summary";
-import { LOCAL_STORAGE_SERVICE } from "../../../common/services/localstorage/local_storage_service";
+import { getPullRequestGroups } from "../../../api/api";
 import { useObservable } from "../../../common/util/hooks";
-import { mapUndefinable, toList } from "../../../common/util/nullable";
+import { mapUndefinable } from "../../../common/util/nullable";
 import { mapStyles } from "../../../common/util/styles";
 import { RUNTIME_REQUEST_SERVICE } from "../../services/runtimerequest/runtime_request_service";
 import { getServiceContainer } from "../../services/service_container";
